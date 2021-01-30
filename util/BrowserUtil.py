@@ -3,7 +3,7 @@ from selenium import webdriver
 
 
 def driver():
-    svc = service.Service('C:/Users/Admin/Downloads/softwares/chromedriver')
+    svc = service.Service('../driver/chromedriver')
     svc.start()
     return webdriver.Remote(svc.service_url)
 
