@@ -1,6 +1,5 @@
 import selenium.webdriver.chrome.service as service
 
-from relseachpaper.PublicationDetailer import publication_detailer
 from util.BrowserUtil import Driver
 
 
@@ -16,10 +15,9 @@ def wait_to_load_elements(elem):
 
 def fetch_all_article_links(elem):
     a_tags_in_element = elem.find_elements_by_tag_name("a")
-
     tags = {a_tag.get_attribute('href') for a_tag in a_tags_in_element if
             a_tag.get_attribute('href') and 'pubs' in a_tag.get_attribute('href')}
-    return tags
+    return list(tags)
 
 
 if __name__ == "__main__":
@@ -28,10 +26,13 @@ if __name__ == "__main__":
     driver = Driver(svc, "https://research.google/pubs/?year=2021")
     element = driver.driver.find_element_by_class_name("search__cards")
     wait_to_load_elements(element)
+    print(driver.text_for_class_name("filter__option-count"))
     tags = fetch_all_article_links(element)
-    print(tags)
+    tags.sort(reverse=True)
 
-    pub = list(tags)[0]
-    pub_details = publication_detailer(svc, pub)
+    print(tags)
+    # pub = list(tags)[0]
+    # pub_details = publication_detailer(svc, pub)
+    # https://stackoverflow.com/questions/27913261/python-storing-data
 
     driver.quit()
