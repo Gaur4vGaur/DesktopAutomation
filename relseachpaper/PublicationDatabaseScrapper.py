@@ -1,4 +1,16 @@
-from util.BrowserUtil import driver, wait_to_load_elements
+import selenium.webdriver.chrome.service as service
+from selenium import webdriver
+
+
+def wait_to_load_elements(elem):
+    text = elem.text
+    i = 0
+    while i < 50000 and text == "":
+        text = elem.text
+        # print(i)
+        i = i + 1
+
+    print("elements now available")
 
 
 def fetch_all_article_links(elem):
@@ -9,15 +21,11 @@ def fetch_all_article_links(elem):
     return tags
 
 
-def publication_url(year):
-    return f"https://research.google/pubs/?year={year}"
-
-
 if __name__ == "__main__":
-    driver = driver()
-    # print(date.today())
-
-    driver.get(publication_url("2021"))
+    svc = service.Service('../driver/chromedriver')
+    svc.start()
+    driver = webdriver.Remote(svc.service_url)
+    driver.get("https://research.google/pubs/?year=2021")
     element = driver.find_element_by_class_name("search__cards")
     wait_to_load_elements(element)
     tags = fetch_all_article_links(element)
