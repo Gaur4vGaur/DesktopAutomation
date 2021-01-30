@@ -1,5 +1,6 @@
 import selenium.webdriver.chrome.service as service
-from selenium import webdriver
+
+from util.BrowserUtil import Driver
 
 
 def wait_to_load_elements(elem):
@@ -23,12 +24,10 @@ def fetch_all_article_links(elem):
 if __name__ == "__main__":
     svc = service.Service('../driver/chromedriver')
     svc.start()
-    driver = webdriver.Remote(svc.service_url)
-    driver.get("https://research.google/pubs/?year=2021")
-    element = driver.find_element_by_class_name("search__cards")
+    driver = Driver(svc, "https://research.google/pubs/?year=2021")
+    element = driver.driver.find_element_by_class_name("search__cards")
     wait_to_load_elements(element)
     tags = fetch_all_article_links(element)
-    print(type(tags))
     print(tags)
 
     driver.quit()

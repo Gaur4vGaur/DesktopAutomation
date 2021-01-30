@@ -10,8 +10,7 @@ if __name__ == "__main__":
     driver = Driver(svc, url)
     print(driver.text_for_class_name("hero__title"))
     print(driver.text_for_class_name("hero__content"))
-    # print(driver.text_for_class_name("content"))
-    elements = driver.driver.find_elements_by_class_name("content__body")
-    for i in elements:
-        print(i.text)
+    print(driver.second_text_for_class_name("content__body"))
+    print(driver.text_for_class_name("bar__title"))
+
     driver.quit()
