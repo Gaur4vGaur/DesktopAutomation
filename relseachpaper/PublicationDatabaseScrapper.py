@@ -2,6 +2,7 @@ import selenium.webdriver.chrome.service as service
 from selenium import webdriver
 
 
+# The method is only used to wait and loop until elements are loaded
 def wait_to_load_elements(elem):
     text = elem.text
     i = 0
@@ -21,14 +22,21 @@ def fetch_all_article_links(elem):
     return tags
 
 
-if __name__ == "__main__":
-    service = service.Service('C:/Users/Admin/Downloads/softwares/chromedriver')
-    service.start()
-    driver = webdriver.Remote(service.service_url)
+def publication_url(year):
+    return f"https://research.google/pubs/?year={year}"
 
+
+def driver():
+    svc = service.Service('C:/Users/Admin/Downloads/softwares/chromedriver')
+    svc.start()
+    return webdriver.Remote(svc.service_url)
+
+
+if __name__ == "__main__":
+    driver = driver()
     # print(date.today())
 
-    driver.get("https://research.google/pubs/?year=2021")
+    driver.get(publication_url("2021"))
     element = driver.find_element_by_class_name("search__cards")
     wait_to_load_elements(element)
     tags = fetch_all_article_links(element)
