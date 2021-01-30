@@ -1,5 +1,6 @@
 import selenium.webdriver.chrome.service as service
 
+from relseachpaper.PublicationDetailer import publication_detailer
 from util.BrowserUtil import Driver
 
 
@@ -29,5 +30,8 @@ if __name__ == "__main__":
     wait_to_load_elements(element)
     tags = fetch_all_article_links(element)
     print(tags)
+
+    pub = list(tags)[0]
+    pub_details = publication_detailer(svc, pub)
 
     driver.quit()
