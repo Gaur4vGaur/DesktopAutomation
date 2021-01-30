@@ -7,7 +7,6 @@ def wait_to_load_elements(elem):
     i = 0
     while i < 50000 and text == "":
         text = elem.text
-        # print(i)
         i = i + 1
 
     print("elements now available")
