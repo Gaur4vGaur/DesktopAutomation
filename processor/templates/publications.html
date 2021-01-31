@@ -39,12 +39,15 @@
         <th>Title</th>
         <th>Asbtract</th>
         <th>Classification</th>
+        <th>Ref</th>
     </tr>
 {% for pub in publications %}
     <tr>
         <td><strong>{{ pub.pub_title }}</strong></td>
         <td>{{ pub.pub_introduction }}</td>
         <td>{{ pub.pub_classification }}</td>
+        <td><a href={{ pub.pub_url }} target="_blank">link</a></td>
+
     </tr>
 {% endfor %}
 </table>

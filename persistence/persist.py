@@ -5,7 +5,6 @@ PERSISTENCE_PATH = '../publication.data'
 
 PUB_READ_COUNT = 'pub_read_count'
 LAST_COUNT = 'last_count'
-PUBLICATION_PATH = "publication_update.data"
 
 
 def read(file_path):
@@ -22,11 +21,12 @@ def update(file_path, data):
 
 
 def test_pub_details():
-    update(PUBLICATION_PATH, {LAST_COUNT: 97, PUB_READ_COUNT: 0})
+    update(PERSISTENCE_PATH, {LAST_COUNT: 97, PUB_READ_COUNT: 0})
 
-# if __name__ == "__main__":
-#     dataset = {'Bart':75, 'Lisa':98, 'Milhouse':80, 'Nelson':65}
-#     update(dataset, PERSISTENCE_PATH)
-#     print(read(PERSISTENCE_PATH).get("Bart"))
+
+if __name__ == "__main__":
+    test_pub_details()
+    r = read(PERSISTENCE_PATH).get(PUB_READ_COUNT)
+    print(type(r))
 
 

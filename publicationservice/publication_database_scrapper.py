@@ -1,6 +1,6 @@
 import selenium.webdriver.chrome.service as service
 
-from persistence.persist import read, update, PUB_READ_COUNT, LAST_COUNT, PUBLICATION_PATH
+from persistence.persist import read, update, PUB_READ_COUNT, LAST_COUNT, PERSISTENCE_PATH
 from publicationservice.all_publications import ALL_PUBLICATIONS
 from publicationservice.publication_detailer import publication_detailer
 from util.BrowserUtil import Driver
@@ -43,7 +43,7 @@ def persisted_publications(svc, persisted_record):
 def publication_updates(year):
     # test_pub_details()
     publications = []
-    persisted_record = read(PUBLICATION_PATH)
+    persisted_record = read(PERSISTENCE_PATH)
     read_count = 0
 
     # publications = read(ALL_PUBLICATIONS)
@@ -65,10 +65,10 @@ def publication_updates(year):
         persisted_record[LAST_COUNT] = last_count
     else:
         # push out previous papers
-        read_count, publications = persisted_publications(svc, persisted_record)
+        publications, read_count = persisted_publications(svc, persisted_record)
     driver.quit()
 
-    update(PUBLICATION_PATH, persisted_record)
+    update(PERSISTENCE_PATH, persisted_record)
     return update_count, read_count+3, publications
 
 
