@@ -15,9 +15,10 @@ def wait_to_load_elements(elem):
 
 def fetch_all_article_links(elem):
     a_tags_in_element = elem.find_elements_by_tag_name("a")
-    tags = {a_tag.get_attribute('href') for a_tag in a_tags_in_element if
+    # use dictionary instead of set to preserve insertion order
+    tags = {a_tag.get_attribute('href'): 1 for a_tag in a_tags_in_element if
             a_tag.get_attribute('href') and 'pubs' in a_tag.get_attribute('href')}
-    return list(tags)
+    return list(tags.keys())
 
 
 if __name__ == "__main__":
@@ -28,7 +29,7 @@ if __name__ == "__main__":
     wait_to_load_elements(element)
     print(driver.text_for_class_name("filter__option-count"))
     tags = fetch_all_article_links(element)
-    tags.sort(reverse=True)
+    # tags.sort(reverse=True)
 
     print(tags)
     # pub = list(tags)[0]
