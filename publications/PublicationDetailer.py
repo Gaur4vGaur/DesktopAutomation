@@ -1,4 +1,4 @@
-from relseachpaper.PublicationDetails import PublicationDetails
+from publications.PublicationDetails import PublicationDetails
 from util.BrowserUtil import Driver
 
 
