@@ -1,6 +1,7 @@
 import selenium.webdriver.chrome.service as service
 
 from persistence.persist import read, update
+from publicationservice.publication_detailer import publication_detailer
 from util.BrowserUtil import Driver
 
 PUBLICATION_PATH = "publication_update.data"
@@ -25,12 +26,12 @@ def fetch_all_article_links(elem):
 
 
 def test_pub_details():
-    update(PUBLICATION_PATH, {'last_count': 90})
+    update(PUBLICATION_PATH, {'last_count': 95})
 
 
 def publication_updates(year):
     test_pub_details()
-    dict = {}
+    publications = []
 
     svc = service.Service('../driver/chromedriver')
     svc.start()
@@ -39,23 +40,23 @@ def publication_updates(year):
     wait_to_load_elements(element)
     last_count = int(driver.text_for_class_name("filter__option-count"))
     persisted_last_count = read(PUBLICATION_PATH).get('last_count')
+    update_count = last_count - persisted_last_count
 
     if last_count > persisted_last_count:
-        update_count = last_count - persisted_last_count
         tags = fetch_all_article_links(element)
-        pub = tags[0:update_count]
-        print(pub)
+        print(tags[0:update_count])
+        publications = [publication_detailer(svc, publication) for publication in tags[0:update_count]]
+
         update(PUBLICATION_PATH, {'last_count': last_count})
-        print("updated details")
-        print(read(PUBLICATION_PATH).get('last_count'))
-        # pub_details = publication_detailer(svc, pub)
     else:
+        # push out previous papers
         print("no updates")
-    # print(tags)
     driver.quit()
 
+    return update_count, publications
 
-if __name__ == "__main__":
-    import datetime
-    now = datetime.datetime.now()
-    publication_updates(now.year)
+
+# if __name__ == "__main__":
+#     import datetime
+#     now = datetime.datetime.now()
+#     publication_updates(now.year)

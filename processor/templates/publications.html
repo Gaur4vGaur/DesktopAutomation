@@ -1,0 +1,49 @@
+<!doctype html>
+
+<style>
+table {
+  width:100%;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+  text-align: left;
+}
+#t01 tr:nth-child(even) {
+  background-color: #eee;
+}
+#t01 tr:nth-child(odd) {
+ background-color: #fff;
+}
+#t01 th {
+  background-color: black;
+  color: white;
+}
+</style>
+
+<title>Research Publications</title>
+<h1>Research Publications</h1>
+
+{% if updates > 0 %}
+  <h2>There were {{ updates }} papers published since last time!</h2>
+{% else %}
+  <h2>There are no updates, below are previous papers</h2>
+{% endif %}
+
+<table id="t01">
+    <tr>
+        <th>Title</th>
+        <th>Asbtract</th>
+        <th>Classification</th>
+    </tr>
+{% for pub in publications %}
+    <tr>
+        <td><strong>{{ pub.pub_title }}</strong></td>
+        <td>{{ pub.pub_introduction }}</td>
+        <td>{{ pub.pub_classification }}</td>
+    </tr>
+{% endfor %}
+</table>
