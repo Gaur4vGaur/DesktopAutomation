@@ -3,6 +3,8 @@ import urllib.request
 
 from persistence.persist import update
 
+ALL_PUBLICATIONS = "../all_publications_sorted_by_year.json"
+
 
 def sort_by_year(pub):
     return pub['year']
@@ -19,4 +21,4 @@ if __name__ == '__main__':
     parsed = json.loads(contents)
     publications = parsed.get("publications")
     publications.sort(reverse=True, key=sort_by_year)
-    update(publications, "../all_publications_sorted_by_year.json")
+    update(publications, ALL_PUBLICATIONS)

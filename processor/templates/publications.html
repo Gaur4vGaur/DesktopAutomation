@@ -1,25 +1,26 @@
 <!doctype html>
 
 <style>
-table {
-  width:100%;
-}
-table, th, td {
-  border: 1px solid black;
+#pub_table {
+  font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
+  width: 100%;
 }
-th, td {
-  padding: 15px;
+
+#pub_table td, #pub_table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#pub_table tr:nth-child(even){background-color: #f2f2f2;}
+
+#pub_table tr:hover {background-color: #ddd;}
+
+#pub_table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
   text-align: left;
-}
-#t01 tr:nth-child(even) {
-  background-color: #eee;
-}
-#t01 tr:nth-child(odd) {
- background-color: #fff;
-}
-#t01 th {
-  background-color: black;
+  background-color: #4CAF50;
   color: white;
 }
 </style>
@@ -30,10 +31,10 @@ th, td {
 {% if updates > 0 %}
   <h2>There were {{ updates }} papers published since last time!</h2>
 {% else %}
-  <h2>There are no updates, below are previous papers</h2>
+  <h2>There are no recent papers published, below are previous papers</h2>
 {% endif %}
 
-<table id="t01">
+<table id="pub_table">
     <tr>
         <th>Title</th>
         <th>Asbtract</th>

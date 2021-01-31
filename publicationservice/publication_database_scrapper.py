@@ -1,6 +1,7 @@
 import selenium.webdriver.chrome.service as service
 
 from persistence.persist import read, update
+from publicationservice.all_publications import ALL_PUBLICATIONS
 from publicationservice.publication_detailer import publication_detailer
 from util.BrowserUtil import Driver
 
@@ -50,13 +51,16 @@ def publication_updates(year):
         update(PUBLICATION_PATH, {'last_count': last_count})
     else:
         # push out previous papers
+        publications = read(ALL_PUBLICATIONS)
+        print(len(publications))
+
         print("no updates")
     driver.quit()
 
     return update_count, publications
 
 
-# if __name__ == "__main__":
-#     import datetime
-#     now = datetime.datetime.now()
-#     publication_updates(now.year)
+if __name__ == "__main__":
+    import datetime
+    now = datetime.datetime.now()
+    print(publication_updates(now.year))
