@@ -1,4 +1,5 @@
-from publications.PublicationDetails import PublicationDetails
+from publicationservice.publication_details import PublicationDetails
+
 from util.BrowserUtil import Driver
 
 
