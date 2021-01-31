@@ -1,6 +1,9 @@
 import selenium.webdriver.chrome.service as service
 
+from persistence.persist import read, update
 from util.BrowserUtil import Driver
+
+PUBLICATION_PATH = "publication_update.data"
 
 
 def wait_to_load_elements(elem):
@@ -21,19 +24,38 @@ def fetch_all_article_links(elem):
     return list(tags.keys())
 
 
-if __name__ == "__main__":
+def test_pub_details():
+    update(PUBLICATION_PATH, {'last_count': 90})
+
+
+def publication_updates(year):
+    test_pub_details()
+    dict = {}
+
     svc = service.Service('../driver/chromedriver')
     svc.start()
-    driver = Driver(svc, "https://research.google/pubs/?year=2021")
+    driver = Driver(svc, f"https://research.google/pubs/?year={year}")
     element = driver.driver.find_element_by_class_name("search__cards")
     wait_to_load_elements(element)
-    print(driver.text_for_class_name("filter__option-count"))
-    tags = fetch_all_article_links(element)
-    # tags.sort(reverse=True)
+    last_count = int(driver.text_for_class_name("filter__option-count"))
+    persisted_last_count = read(PUBLICATION_PATH).get('last_count')
 
-    print(tags)
-    # pub = list(tags)[0]
-    # pub_details = publication_detailer(svc, pub)
-    # https://stackoverflow.com/questions/27913261/python-storing-data
-
+    if last_count > persisted_last_count:
+        update_count = last_count - persisted_last_count
+        tags = fetch_all_article_links(element)
+        pub = tags[0:update_count]
+        print(pub)
+        update(PUBLICATION_PATH, {'last_count': last_count})
+        print("updated details")
+        print(read(PUBLICATION_PATH).get('last_count'))
+        # pub_details = publication_detailer(svc, pub)
+    else:
+        print("no updates")
+    # print(tags)
     driver.quit()
+
+
+if __name__ == "__main__":
+    import datetime
+    now = datetime.datetime.now()
+    publication_updates(now.year)

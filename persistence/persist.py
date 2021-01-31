@@ -11,7 +11,7 @@ def read(file_path):
     return data
 
 
-def update(data, file_path):
+def update(file_path, data):
     file_write_data = open(file_path, 'wb')
     pickle.dump(data, file_write_data)
     file_write_data.close()
@@ -19,7 +19,7 @@ def update(data, file_path):
 
 if __name__ == "__main__":
     dataset = {'Bart':75, 'Lisa':98, 'Milhouse':80, 'Nelson':65}
-    update(PERSISTENCE_PATH, dataset)
+    update(dataset, PERSISTENCE_PATH)
     print(read(PERSISTENCE_PATH).get("Bart"))
 
 
