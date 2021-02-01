@@ -76,8 +76,7 @@ input[type=button], input[type=submit], input[type=reset] {
         <td><strong>{{ pub.pub_title }}</strong></td>
         <td>{{ pub.pub_introduction }}</td>
         <td>{{ pub.pub_classification }}</td>
-        <td><a href={{ pub.pub_url }} target="_blank">link</a></td>
-
+        <td><a href={{ pub.pub_url }} target="_blank">{{ pub.pub_year }}</a></td>
     </tr>
 {% endfor %}
 </table>

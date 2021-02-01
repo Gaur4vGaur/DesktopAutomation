@@ -24,9 +24,9 @@ def fetch_all_article_links(elem):
     return list(tags.keys())
 
 
-def recent_publications(element, svc, update_count):
+def recent_publications(element, svc, update_count, year):
     tags = fetch_all_article_links(element)
-    publications = [publication_detailer(svc, publication) for publication in tags[0:update_count]]
+    publications = [publication_detailer(svc, publication, year) for publication in tags[0:update_count]]
     return publications
 
 
@@ -34,7 +34,7 @@ def persisted_publications(svc, read_count):
     all_publications = read(ALL_PUBLICATIONS)
     pubs_to_read = [pub.get("filename_html").replace(".html", "") for pub in
                     all_publications[read_count:read_count + 3]]
-    publications = [publication_detailer(svc, f"https://research.google/pubs/{publication}")
+    publications = [(publication_detailer(svc, f"https://research.google/pubs/{publication}", '2021'))
                     for publication in pubs_to_read]
     return publications
 
@@ -54,7 +54,7 @@ def publication_updates(year):
     update_count = last_count - persisted_last_count
 
     if last_count > persisted_last_count:
-        publications = recent_publications(element, last_count, svc)
+        publications = recent_publications(element, last_count, svc, year)
         persisted_record[LAST_COUNT] = last_count
     else:
         # push out previous papers

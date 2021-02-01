@@ -28,13 +28,13 @@ def publications():
     now = datetime.datetime.now()
     update_count, pubs = publication_updates(now.year)
     # update_count = 1
-    # record_count = 1
     # pubs = [PublicationDetails(
     #     "hero__title",
     #     "hero__content",
     #     "content__body",
     #     "bar__title",
-    #     "www.google.com"
+    #     "www.google.com",
+    #     '2021'
     # )]
 
     return render_template('publications.html', updates=update_count, publications=pubs)
