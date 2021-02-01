@@ -26,16 +26,16 @@ def loop():
 @app.route('/publications/')
 def publications():
     now = datetime.datetime.now()
-    # update_count, record_count, pubs = publication_updates(now.year)
-    update_count = 1
-    record_count = 1
-    pubs = [PublicationDetails(
-        "hero__title",
-        "hero__content",
-        "content__body",
-        "bar__title",
-        "www.google.com"
-    )]
+    update_count, record_count, pubs = publication_updates(now.year)
+    # update_count = 1
+    # record_count = 1
+    # pubs = [PublicationDetails(
+    #     "hero__title",
+    #     "hero__content",
+    #     "content__body",
+    #     "bar__title",
+    #     "www.google.com"
+    # )]
 
     return render_template('publications.html', updates=update_count, records=record_count, publications=pubs)
 
