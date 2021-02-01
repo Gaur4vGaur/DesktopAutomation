@@ -36,6 +36,9 @@ def publications():
 
     return render_template('publications.html', updates=update_count, records=record_count, publications=pubs)
 
-
+#TODO
+# submit read count
+# cache the results
+# cache reset
 if __name__ == "__main__":
     app.run()
