@@ -1,9 +1,13 @@
 from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities
 
 
 class Driver:
     def __init__(self, svc, url):
-        self.driver = webdriver.Remote(svc.service_url)
+        capabilities = DesiredCapabilities.CHROME
+        capabilities.update({'logLevel': 'ERROR'})
+
+        self.driver = webdriver.Remote(svc.service_url, capabilities)
         self.driver.get(url)
 
     def text_for_class_name(self, class_name):

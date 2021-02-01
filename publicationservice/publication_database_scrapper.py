@@ -44,7 +44,7 @@ def publication_updates(year):
     publications = []
     persisted_record = read(PERSISTENCE_PATH)
 
-    svc = service.Service('../driver/chromedriver')
+    svc = service.Service('./driver/chromedriver')
     svc.start()
     driver = Driver(svc, f"https://research.google/pubs/?year={year}")
     element = driver.driver.find_element_by_class_name("search__cards")

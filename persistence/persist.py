@@ -1,13 +1,17 @@
 import pickle
 
-
-PERSISTENCE_PATH = '../publication.data'
+PERSISTENCE_PATH = './publication.data'
 
 PUB_READ_COUNT = 'pub_read_count'
 LAST_COUNT = 'last_count'
 
 
 def read(file_path):
+    # print("---------------")
+    # print(file_path)
+    # print(os.path.abspath(file_path))
+    # print(os.path.isfile(file_path))
+    # print("---------------")
     file_data = open(file_path, 'rb')
     data = pickle.load(file_data)
     file_data.close()

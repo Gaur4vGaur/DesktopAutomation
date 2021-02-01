@@ -3,7 +3,7 @@ import urllib.request
 
 from persistence.persist import update
 
-ALL_PUBLICATIONS = "../all_publications_sorted_by_year.json"
+ALL_PUBLICATIONS = "./all_publications_sorted_by_year.json"
 
 
 def sort_by_year(pub):
