@@ -2,7 +2,7 @@ import datetime
 
 from flask import Flask, render_template, request, redirect, url_for
 
-from publicationservice.publication_database_scrapper import publication_updates
+from publicationservice.publication_database_scrapper import publication_updates, update_read_count
 from publicationservice.publication_details import PublicationDetails
 
 app = Flask(__name__)
@@ -26,7 +26,7 @@ def loop():
 @app.route('/publications/')
 def publications():
     now = datetime.datetime.now()
-    update_count, record_count, pubs = publication_updates(now.year)
+    update_count, pubs = publication_updates(now.year)
     # update_count = 1
     # record_count = 1
     # pubs = [PublicationDetails(
@@ -37,20 +37,15 @@ def publications():
     #     "www.google.com"
     # )]
 
-    return render_template('publications.html', updates=update_count, records=record_count, publications=pubs)
+    return render_template('publications.html', updates=update_count, publications=pubs)
 
 
 @app.route('/publications/', methods=['post'])
-def login():
+def update_read_record():
     if request.method == 'POST':
-        username = request.form.get('read_count')  # access the data inside
-        print("form data")
-        print(username)
-
-        if username == 'root':
-            message = "Correct username and password"
-        else:
-            message = "Wrong username or password"
+        read_count = request.form.get('read_count')  # access the data inside
+        print(read_count)
+        update_read_count(int(read_count))
 
     return redirect(url_for('publications'))
 
