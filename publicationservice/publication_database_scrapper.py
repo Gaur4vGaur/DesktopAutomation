@@ -5,6 +5,8 @@ from publicationservice.all_publications import ALL_PUBLICATIONS
 from publicationservice.publication_detailer import publication_detailer
 from util.BrowserUtil import Driver
 
+NUMBER_OF_ARTICLES_FROM_ALL_PUB = 4
+
 
 def wait_to_load_elements(elem):
     text = elem.text
@@ -33,7 +35,7 @@ def recent_publications(element, svc, update_count, year):
 def persisted_publications(svc, read_count):
     all_publications = read(ALL_PUBLICATIONS)
     pubs_to_read = [pub.get("filename_html").replace(".html", "") for pub in
-                    all_publications[read_count:read_count + 3]]
+                    all_publications[read_count:read_count + NUMBER_OF_ARTICLES_FROM_ALL_PUB]]
     publications = [(publication_detailer(svc, f"https://research.google/pubs/{publication}", '2021'))
                     for publication in pubs_to_read]
     return publications
