@@ -3,7 +3,6 @@ import datetime
 from flask import Flask, render_template, request, redirect, url_for
 
 from publicationservice.publication_database_scrapper import publication_updates, update_read_count
-from publicationservice.publication_details import PublicationDetails
 
 app = Flask(__name__)
 
@@ -26,7 +25,7 @@ def loop():
 @app.route('/publications/')
 def publications():
     now = datetime.datetime.now()
-    update_count, pubs = publication_updates(now.year)
+    update_count, pubs, published_this_year, total_read_from_last_year = publication_updates(now.year)
     # update_count = 1
     # pubs = [PublicationDetails(
     #     "hero__title",
@@ -37,7 +36,8 @@ def publications():
     #     '2021'
     # )]
 
-    return render_template('publications.html', updates=update_count, publications=pubs)
+    return render_template('publications.html', updates=update_count, publications=pubs,
+                           pp=published_this_year, tr=total_read_from_last_year)
 
 
 @app.route('/publications/', methods=['post'])

@@ -34,10 +34,10 @@ def recent_publications(element, svc, update_count, year):
 
 def persisted_publications(svc, read_count):
     all_publications = read(ALL_PUBLICATIONS)
-    pubs_to_read = [pub.get("filename_html").replace(".html", "") for pub in
+    pubs_to_read = [(pub.get("filename_html").replace(".html", ""), pub.get('year')) for pub in
                     all_publications[read_count:read_count + NUMBER_OF_ARTICLES_FROM_ALL_PUB]]
-    publications = [(publication_detailer(svc, f"https://research.google/pubs/{publication}", '2021'))
-                    for publication in pubs_to_read]
+    publications = [(publication_detailer(svc, f"https://research.google/pubs/{publication}", year))
+                    for publication, year in pubs_to_read]
     return publications
 
 
@@ -64,7 +64,7 @@ def publication_updates(year):
     driver.quit()
 
     update(PERSISTENCE_PATH, persisted_record)
-    return update_count, publications
+    return update_count, publications, last_count, persisted_record[PUB_READ_COUNT]
 
 
 def update_read_count(read_count):
