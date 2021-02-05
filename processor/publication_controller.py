@@ -1,6 +1,10 @@
 import datetime
+import io
 
-from flask import Flask, render_template, request, redirect, url_for
+import matplotlib.pyplot as plt
+import networkx as nx
+import pandas as pd
+from flask import Flask, render_template, request, redirect, url_for, send_file
 
 from publicationservice.publication_database_scrapper import publication_updates, update_read_count
 
@@ -48,6 +52,53 @@ def update_read_record():
         update_read_count(int(read_count))
 
     return redirect(url_for('publications'))
+
+
+@app.route('/images/')
+def images():
+    return render_template("images.html", title="something", url="http://localhost:5000/images/")
+
+@app.route('/figure/')
+def figure():
+    fig = draw_polygons()
+    img = io.BytesIO()
+    fig.savefig(img)
+    # img.seek(0)
+    return send_file(img, mimetype='image/png')
+
+
+import base64
+
+
+@app.route('/plot/')
+def plot():
+    img = io.BytesIO()
+    y = [1, 2, 3, 4, 5]
+    x = [0, 2, 1, 3, 4]
+
+    plt.plot(x, y)
+
+    plt.savefig(img, format='png')
+    plt.close()
+    img.seek(0)
+    plot_url = base64.b64encode(img.getvalue()).decode('utf8')
+
+    return render_template('plot.html', plot_url=plot_url)
+
+
+def draw_polygons():
+    df = pd.DataFrame({'from': ['A', 'B', 'C', 'B'], 'to': ['D', 'A', 'E', 'C']})
+    df
+
+    # Build your graph
+    G = nx.from_pandas_edgelist(df, 'from', 'to')
+
+    # Graph with Custom nodes:
+    nx.draw(G, with_labels=True, node_size=1500, node_color="skyblue", node_shape="s", alpha=0.5, linewidths=40)
+    output = io.BytesIO()
+    # FigureCanvas(plt.figure()).print_png(output)
+
+    return plt.figure()
 
 
 #TODO
